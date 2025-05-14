@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Labyrinth of the Mathematician</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="mainMenu">
+        <h1>The Labyrinth of the Mathematician</h1>
+        <button id="startButton"><em>Click here to begin your adventure!</em></button>
+        <div id="gameMode" class="hidden gameMode">
+            <button id="quickPlayButton">Freeplay</button>
+            <button id="rankedButton">Ranked Mode</button>
+        </div>
+        <button id="adminButton">Admin Login</button>
+        <div id="loginPopup" class="hidden popup">
+            <h2>Admin Login</h2>
+            <label>Username:</label>
+            <input type="text" id="adminUsername" />
+            <label>Password:</label>
+            <input type="password" id="adminPassword" />
+            <br />
+            <button id="loginConfirmBtn">Login</button>
+            <button id="loginCancelBtn">Cancel</button>
+            <p id="loginError" class="hidden">Incorrect login.</p>
+        </div>
+    </div>
+
+    <div id="preferencesPage" class="hidden">
+        <h2>Welcome adventurer! Please enter your name below:</h2>
+        <input type="text" id="playerName" placeholder="Enter your name" />
+
+        <h2><span id="heroTitle">[Name]</span> of Southerlands, which hero will fight beside you?</h2>
+        <select id="heroSelect">
+            <option value="1">Char1F</option>
+            <option value="2">Char1M</option>
+            <option value="3">Char2F</option>
+            <option value="4">Char2M</option>
+            <option value="5">Char3F</option>
+            <option value="6">Char3M</option>
+        </select>
+
+        <h2>Which battleground shall we reclaim?</h2>
+        <select id="dungeonSelect">
+            <option value="algebra">Algebra Arena</option>
+            <option value="geometry">Geometry Grove</option>
+            <option value="trigonometry">Trigonometry Temple</option>
+        </select>
+
+        <h2>Confirm before proceeding:</h2>
+        <div id="summaryBox">
+            <p><strong>Name:</strong> <span id="summaryName">-</span></p>
+            <p><strong>Hero:</strong> <span id="summaryHero">-</span></p>
+            <p><strong>Dungeon:</strong> <span id="summaryDungeon">-</span></p>
+            <button id="editPreferencesButton">Change Choices</button>
+        </div>
+
+        <button id="startGameButton">Enough—the people need saving! [Begin the dungeon]</button>
+    </div>
+
+
+    <div id="battlePage" class="hidden">
+        <h2 id="question"></h2> <!-- Display question -->
+        <p id="hint"></p> <!-- Display hint -->
+        <input type="text" id="answerInput" placeholder="Enter your answer">
+        <button id="submitAnswerButton">Submit Answer</button>
+    </div>
+
+    <div id="resultsPage" class="hidden">
+        <h2>Game Over</h2>
+        <p id="finalScore">Your Score: 0</p>
+        <button id="replayButton">Play Again</button>
+        <button id="returnToMenuButton">Return to Main Menu</button>
+    </div>
+
+    <div id="overviewPage" class="hidden">
+        <h2>Admin Overview</h2>
+        <h3>Leaderboard</h3>
+        <ul id="leaderboardList">
+            <!-- Leaderboard entries will go here -->
+        </ul>
+        <button id="backToGameButton">⬅ Back</button>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
