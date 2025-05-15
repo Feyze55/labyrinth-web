@@ -1,187 +1,164 @@
 // =====================
-// Math Question Generator
+// Utility Functions
 // =====================
-function generateRandomQuestion() {
-  const questionType = Math.floor(Math.random() * 3); // Randomly choose type of question (0 = power/roots, 1 = algebra, 2 = angles)
-  let question, answer, hint;
-
-  // Power and Root questions
-  if (questionType === 0) {
-    const base = Math.floor(Math.random() * 9) + 1; // Random base between 1 and 9
-    const exponent = Math.floor(Math.random() * 3) + 2; // Exponent between 2 and 4
-    const root = Math.random() > 0.5; // Randomly choose between power or square root
-
-    if (root) {
-      // Square root question
-      question = `What is the square root of ${base * base}?`;
-      answer = base.toString();
-      hint = `What number, when multiplied by itself, gives ${base * base}?`;
-    } else {
-      // Power question
-      question = `What number is ${base} to the power of ${exponent}?`;
-      answer = Math.pow(base, exponent).toString();
-      hint = `Think about multiplying ${base} by itself ${exponent - 1} times.`;
-    }
-
-  }
-  // Algebraic questions (solve for x)
-  else if (questionType === 1) {
-      const num1 = Math.floor(Math.random() * 9) + 1; // Random number between 1 and 9
-      const num2 = Math.floor(Math.random() * 9) + 1; // Random number between 1 and 9
-      const operation = Math.random();
-      let operationSymbol, result;
-
-      if (operation < 0.33) {
-          // Addition
-          operationSymbol = "+";
-          question = `Solve for x: x + ${num1} = ${num2}`;
-          result = num2 - num1;
-      } else if (operation < 0.66) {
-          // Subtraction
-          operationSymbol = "-";
-          question = `Solve for x: x - ${num1} = ${num2}`;
-          result = num2 + num1;
-      } else if (operation < 0.85) {
-          // Multiplication
-          operationSymbol = "*";
-          question = `Solve for x: x * ${num1} = ${num2}`;
-          result = num2 / num1;
-          
-          // Ensure result is an integer, by adjusting num2 to be a multiple of num1
-          if (num2 % num1 !== 0) {
-              num2 = num1 * (Math.floor(Math.random() * 9) + 1); // Make num2 a multiple of num1
-              result = num2 / num1;
-          }
-      } else {
-          // Division
-          operationSymbol = "/";
-          question = `Solve for x: x / ${num1} = ${num2}`;
-          result = num2 * num1;
-          
-          // Ensure result is an integer by adjusting num2 to be a multiple of num1
-          if (num2 % num1 !== 0) {
-              num2 = num1 * (Math.floor(Math.random() * 9) + 1); // Make num2 a multiple of num1
-              result = num2 / num1;
-          }
-      }
-
-      answer = result.toString();
-      hint = `Use the inverse operation of ${operationSymbol} to solve for x.`;
-  }
-  // Angle questions
-  else if (questionType === 2) {
-    const angle = Math.floor(Math.random() * 360); // Random angle between 0 and 360
-    const classifyAngle = Math.random(); // Randomly decide to classify the angle or ask a specific question
-
-    if (classifyAngle < 0.5) {
-      // Classify angle
-      question = `Classify the following angle: ${angle}°`;
-      if (angle < 90) {
-        answer = "Acute";
-        hint = `Acute angles are smaller than 90°.`;
-      } else if (angle === 90) {
-        answer = "Right";
-        hint = `Right angles are exactly 90°.`;
-      } else if (angle < 180) {
-        answer = "Obtuse";
-        hint = `Obtuse angles are between 90° and 180°.`;
-      } else if (angle < 360) {
-        answer = "Reflex";
-        hint = `Reflex angles are between 180° and 360°.`;
-      } else {
-        answer = "Straight";
-        hint = `Straight angles are exactly 180°.`;
-      }
-    } else {
-      // Specific angle question
-      const angleType = Math.random();
-      if (angleType < 0.33) {
-        question = `What angle is less than 90°?`;
-        answer = `${Math.floor(Math.random() * 89) + 1}°`;
-        hint = `Angles less than 90° are acute angles.`;
-      } else if (angleType < 0.66) {
-        question = `What angle is equal to 90°?`;
-        answer = "90°";
-        hint = `A right angle is exactly 90°.`;
-      } else {
-        question = `What angle is greater than 90° but less than 180°?`;
-        answer = `${Math.floor(Math.random() * 90) + 91}°`;
-        hint = `Angles greater than 90° but less than 180° are obtuse angles.`;
-      }
-    }
-  }
-
-  return {
-    question,
-    answer,
-    hint
-  };
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const { question, answer, hint } = generateRandomQuestion();
-console.log(question);
-console.log("Answer:", answer);
-console.log("Hint:", hint);
+// =====================
+// Math Question Generator
+// =====================
+function generateRandomQuestion(questionType) {
+  let question = "", answer = "", hint = "";
+
+  switch (questionType) {
+    case 1: // Power and Root
+      const base = getRandomInt(1, 9);
+      const exponent = getRandomInt(2, 3);
+      if (Math.random() > 0.5) {
+        question = `What is the square root of ${base * base}?`;
+        answer = `${base}`;
+        hint = `What number, when multiplied by itself, gives ${base * base}?`;
+      } else {
+        question = `What number is ${base} to the power of ${exponent}?`;
+        answer = `${Math.pow(base, exponent)}`;
+        hint = `Think about multiplying ${base} by itself ${exponent} times.`;
+      }
+      break;
+
+    case 2: // Algebraic solve for x
+      let num1 = getRandomInt(1, 9);
+      let num2 = getRandomInt(1, 9);
+      const operation = Math.random();
+
+      if (operation < 0.33) {
+        question = `Solve for x: x + ${num1} = ${num2}`;
+        answer = `${num2 - num1}`;
+        hint = `Use the inverse operation of + to solve for x.`;
+      } else if (operation < 0.66) {
+        question = `Solve for x: x - ${num1} = ${num2}`;
+        answer = `${num2 + num1}`;
+        hint = `Use the inverse operation of - to solve for x.`;
+      } else if (operation < 0.85) {
+        num2 = num1 * getRandomInt(1, 9);
+        question = `Solve for x: x * ${num1} = ${num2}`;
+        answer = `${num2 / num1}`;
+        hint = `Use the inverse operation of * to solve for x.`;
+      } else {
+        let x = getRandomInt(1, 9);
+        num2 = getRandomInt(1, 9);
+        question = `Solve for x: x / ${num2} = ${x}`;
+        answer = `${x * num2}`;
+        hint = `Use the inverse operation of / to solve for x.`;
+      }
+      break;
+
+    case 3: // Angles
+      const angle = getRandomInt(0, 359);
+      if (Math.random() < 0.5) {
+        question = `Classify the following angle: ${angle}°`;
+        if (angle < 90) {
+          answer = "Acute";
+          hint = `These angles are smaller than 90°.`;
+        } else if (angle === 90) {
+          answer = "Right";
+          hint = `This angle is exactly 90°.`;
+        } else if (angle < 180) {
+          answer = "Obtuse";
+          hint = `These angles are between 90° and 180°.`;
+        } else if (angle === 180) {
+          answer = "Straight";
+          hint = `This angle is exactly 180°.`;
+        } else {
+          answer = "Reflex";
+          hint = `These angles are between 180° and 360°.`;
+        }
+      } else {
+        const type = Math.random();
+        if (type < 0.33) {
+          answer = `${getRandomInt(1, 89)}°`;
+          question = `What angle is less than 90°?`;
+          hint = `Angles less than 90° are acute angles.`;
+        } else if (type < 0.66) {
+          answer = "90°";
+          question = `What angle is equal to 90°?`;
+          hint = `A right angle is exactly 90°.`;
+        } else {
+          answer = `${getRandomInt(91, 179)}°`;
+          question = `What angle is greater than 90° but less than 180°?`;
+          hint = `Angles greater than 90° but less than 180° are obtuse angles.`;
+        }
+      }
+      break;
+  }
+
+  return { question, answer, hint };
+}
 
 // =====================
-// Display Question
+// Display & Summary
 // =====================
 function displayQuestion(data) {
   document.getElementById("question").textContent = data.question;
   document.getElementById("hint").textContent = data.hint;
-  currentQuestion = data; // Store for validation
+  currentQuestion = data;
 }
 
-// =====================
-// Player Summary Update
-// =====================
 function updateSummary() {
-  summaryName.textContent = nameInput.value;
+  summaryName.textContent = playerName.value;
   summaryHero.textContent = heroSelect.options[heroSelect.selectedIndex].text;
   summaryDungeon.textContent = dungeonSelect.options[dungeonSelect.selectedIndex].text;
+}
+
+function preventSelectChange(selectElement) {
+  selectElement.addEventListener("mousedown", (e) => {
+    if (selectElement.classList.contains("locked")) e.preventDefault();
+  });
 }
 
 // =====================
 // DOM Elements
 // =====================
-const nameInput = document.getElementById("playerName");
-const heroSelect = document.getElementById("heroSelect");
-const dungeonSelect = document.getElementById("dungeonSelect");
-const summaryName = document.getElementById("summaryName");
-const summaryHero = document.getElementById("summaryHero");
-const summaryDungeon = document.getElementById("summaryDungeon");
-const heroTitle = document.getElementById("heroTitle");
+const $ = (id) => document.getElementById(id);
+const [
+  adminBtn, loginPopup, loginConfirmBtn, loginCancelBtn, loginError,
+  startBtn, startCancelBtn, gameModePopup, quickPlayButton, rankedButton,
+  mainMenu, preferencesPage, startGameButton, battlePage,
+  playerName, heroSelect, dungeonSelect, summaryName, summaryHero, summaryDungeon, heroTitle,
+  confirmName, confirmHero, confirmDungeon, reselectPreferences,
+  nameEnterBox, heroSelectBox, dungeonSelectBox, summaryBox,
+  submitAnswerButton, answerInput,
+  resultsPage, finalScore, replayButton, returnToMenuButton,
+  overviewPage, leaderboardList, backToGameButton
+] = [
+  "adminButton", "loginPopup", "loginConfirmBtn", "loginCancelBtn", "loginError",
+  "startButton", "startCancelBtn", "gameModePopup", "quickPlayButton", "rankedButton",
+  "mainMenu", "preferencesPage", "startGameButton", "battlePage",
+  "playerName", "heroSelect", "dungeonSelect", "summaryName", "summaryHero", "summaryDungeon", "heroTitle",
+  "confirmName", "confirmHero", "confirmDungeon", "reselectPreferences",
+  "nameEnterBox", "heroSelectBox", "dungeonSelectBox", "summaryBox",
+  "submitAnswerButton", "answerInput",
+  "resultsPage", "finalScore", "replayButton", "returnToMenuButton",
+  "overviewPage", "leaderboardList", "backToGameButton"
+].map($);
 
-const adminBtn = document.getElementById("adminButton");
-const loginPopup = document.getElementById("loginPopup");
-const loginConfirmBtn = document.getElementById("loginConfirmBtn");
-const loginCancelBtn = document.getElementById("loginCancelBtn");
-const adminUsername = document.getElementById("adminUsername");
-const adminPassword = document.getElementById("adminPassword");
-const loginError = document.getElementById("loginError");
-
-const startBtn = document.getElementById("startButton");
-const gameModeDiv = document.getElementById("gameMode");
-const quickPlayButton = document.getElementById("quickPlayButton");
-const rankedButton = document.getElementById("rankedButton");
-const mainMenu = document.getElementById("mainMenu");
-const preferencesPage = document.getElementById("preferencesPage");
-const startGameButton = document.getElementById("startGameButton");
-const battlePage = document.getElementById("battlePage");
-
-const submitAnswerButton = document.getElementById("submitAnswerButton");
-const answerInput = document.getElementById("answerInput");
-
-// Store the current question globally
+// =====================
+// Game State
+// =====================
 let currentQuestion = null;
+let questionType;
+let round = 0;
+let playerScore = 0;
 
 // =====================
 // Event Listeners
 // =====================
 
-// Admin Login
+// Admin
 adminBtn.addEventListener("click", () => {
   loginPopup.classList.remove("hidden");
+  startBtn.classList.add("hidden");
+  adminBtn.classList.add("hidden");
 });
 
 loginCancelBtn.addEventListener("click", () => {
@@ -189,6 +166,8 @@ loginCancelBtn.addEventListener("click", () => {
   adminUsername.value = '';
   adminPassword.value = '';
   loginError.classList.add("hidden");
+  startBtn.classList.remove("hidden");
+  adminBtn.classList.remove("hidden");
 });
 
 loginConfirmBtn.addEventListener("click", () => {
@@ -196,109 +175,128 @@ loginConfirmBtn.addEventListener("click", () => {
   const password = adminPassword.value;
   if (username === "admin" && password === "1234") {
     loginPopup.classList.add("hidden");
+    startBtn.classList.remove("hidden");
+    adminBtn.classList.remove("hidden");
     showPage("overviewPage");
   } else {
     loginError.classList.remove("hidden");
   }
 });
 
-// Mode Selection
+// Game Mode
 startBtn.addEventListener("click", () => {
-  gameModeDiv.classList.remove("hidden");
+  gameModePopup.classList.remove("hidden");
+  startBtn.classList.add("hidden");
+  adminBtn.classList.add("hidden");
 });
 
-quickPlayButton.addEventListener("click", () => {
-  mainMenu.classList.add("hidden");
-  preferencesPage.classList.remove("hidden");
-  preferencesPage.setAttribute('data-mode', 'freeplay');
+[startCancelBtn, quickPlayButton, rankedButton].forEach((btn, i) => {
+  btn.addEventListener("click", () => {
+    if (btn === startCancelBtn) {
+      gameModePopup.classList.add("hidden");
+    } else {
+      mainMenu.classList.add("hidden");
+      preferencesPage.classList.remove("hidden");
+      preferencesPage.setAttribute('data-mode', i === 1 ? 'freeplay' : 'ranked');
+    }
+    startBtn.classList.remove("hidden");
+    adminBtn.classList.remove("hidden");
+  });
 });
 
-rankedButton.addEventListener("click", () => {
-  mainMenu.classList.add("hidden");
-  preferencesPage.classList.remove("hidden");
-  preferencesPage.setAttribute('data-mode', 'ranked');
+// Preferences
+confirmName.addEventListener("click", () => {
+  if (playerName.value === "") return alert("Please enter your name before continuing.");
+  confirmName.classList.add("hidden");
+  heroSelectBox.classList.remove("hidden");
+  heroTitle.textContent = playerName.value;
+  playerName.readOnly = true;
 });
 
-// Update Summary
-nameInput.addEventListener("input", () => {
-  heroTitle.textContent = nameInput.value || "[Name]";
+confirmHero.addEventListener("click", () => {
+  if (!heroSelect.value) return alert("Please select a hero before continuing.");
+  confirmHero.classList.add("hidden");
+  dungeonSelectBox.classList.remove("hidden");
+  heroSelect.classList.add("locked");
+  preventSelectChange(heroSelect);
 });
 
-dungeonSelect.addEventListener('click', () => {
+confirmDungeon.addEventListener("click", () => {
+  if (!dungeonSelect.value) return alert("Please select a dungeon before continuing.");
+  confirmDungeon.classList.add("hidden");
+  summaryBox.classList.remove("hidden");
+  questionType = parseInt(dungeonSelect.value);
+  dungeonSelect.classList.add("locked");
+  preventSelectChange(dungeonSelect);
   updateSummary();
 });
 
-// Start Game
-startGameButton.addEventListener("click", () => {
-  preferencesPage.classList.add("hidden");
-  battlePage.classList.remove("hidden");
-
-  const firstQuestion = generateMathQuestion();
-  displayQuestion(firstQuestion);
+reselectPreferences.addEventListener("click", () => {
+  [summaryBox, heroSelectBox, dungeonSelectBox].forEach(e => e.classList.add("hidden"));
+  [confirmName, confirmHero, confirmDungeon].forEach(e => e.classList.remove("hidden"));
+  playerName.readOnly = false;
+  heroSelect.classList.remove("locked");
+  dungeonSelect.classList.remove("locked");
 });
 
-// Submit Answer
+// Game Start
+startGameButton.addEventListener("click", () => {
+  showPage("battlePage");
+  currentQuestion = generateRandomQuestion(questionType);
+  displayQuestion(currentQuestion);
+});
+
+// Answer Submission
 submitAnswerButton.addEventListener("click", () => {
   if (!currentQuestion) return;
 
   const userAnswer = answerInput.value.trim();
-  const correctAnswer = currentQuestion.answer.toString().trim();
+  const correctAnswer = currentQuestion.answer.trim();
 
   if (userAnswer === correctAnswer) {
     alert("Correct! Moving to the next question.");
-    const nextQuestion = generateMathQuestion();
-    displayQuestion(nextQuestion);
-    answerInput.value = "";
+    playerScore++;
   } else {
     alert("Incorrect. Try again!");
   }
+
+  answerInput.value = "";
+  round++;
+
+  if (round < 3) {
+    currentQuestion = generateRandomQuestion(questionType);
+    displayQuestion(currentQuestion);
+  } else {
+    showResults(playerScore);
+  }
 });
 
-const resultsPage = document.getElementById("resultsPage");
-const finalScore = document.getElementById("finalScore");
-const replayButton = document.getElementById("replayButton");
-const returnToMenuButton = document.getElementById("returnToMenuButton");
-
-const overviewPage = document.getElementById("overviewPage");
-const leaderboardList = document.getElementById("leaderboardList");
-const backToGameButton = document.getElementById("backToGameButton");
-
-let playerScore = 0; // or however you track score
-
+// =====================
+// Result Handling
+// =====================
 function showResults(score) {
-  playerScore = score;
-  finalScore.textContent = `Your Score: ${playerScore}`;
-  battlePage.classList.add("hidden");
-  resultsPage.classList.remove("hidden");
+  finalScore.textContent = `Your Score: ${score}`;
+  showPage("resultsPage");
+  round = 0;
+  playerScore = 0;
+  answerInput.value = "";
 }
 
 function showPage(pageId) {
-  // Hide all pages
-  const pages = [mainMenu, preferencesPage, battlePage, resultsPage, overviewPage, gameModeDiv];
+  const pages = [mainMenu, preferencesPage, battlePage, resultsPage, overviewPage, gameModePopup];
   pages.forEach(p => p.classList.add("hidden"));
-  document.getElementById(pageId).classList.remove("hidden");
+  $(pageId).classList.remove("hidden");
 }
 
-// replay function
-replayButton.addEventListener("click", () => {
-  playerScore = 0;
-  resultsPage.classList.add("hidden");
-  preferencesPage.classList.remove("hidden");
-});
+replayButton.addEventListener("click", () => showPage("preferencesPage"));
+returnToMenuButton.addEventListener("click", () => showPage("mainMenu"));
+backToGameButton.addEventListener("click", () => showPage("mainMenu"));
 
-// Return to menu
-returnToMenuButton.addEventListener("click", () => {
-  showPage("mainMenu");
-});
-
-// Go back from overview page
-backToGameButton.addEventListener("click", () => {
-  showPage("mainMenu");
-});
-
-// function to update leaderboard
+// =====================
+// Leaderboard
+// =====================
 function updateLeaderboard(entries = []) {
-  leaderboardList.innerHTML = ""; // clear old entries
+  leaderboardList.innerHTML = "";
   entries.forEach((entry, index) => {
     const li = document.createElement("li");
     li.textContent = `${index + 1}. ${entry.name} - ${entry.score} pts`;
