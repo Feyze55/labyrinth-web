@@ -12,9 +12,10 @@
     <div id="mainMenu">
         <h1>The Labyrinth of the Mathematician</h1>
         <button id="startButton"><em>Click here to begin your adventure!</em></button>
-        <div id="gameMode" class="hidden gameMode">
+        <div id="gameModePopup" class="hidden popup">
             <button id="quickPlayButton">Freeplay</button>
             <button id="rankedButton">Ranked Mode</button>
+            <button id="startCancelBtn">Cancel</button>
         </div>
         <button id="adminButton">Admin Login</button>
         <div id="loginPopup" class="hidden popup">
@@ -31,35 +32,45 @@
     </div>
 
     <div id="preferencesPage" class="hidden">
-        <h2>Welcome adventurer! Please enter your name below:</h2>
-        <input type="text" id="playerName" placeholder="Enter your name" />
+        <div id="nameEnterBox">
+            <h2>Welcome adventurer! Please enter your name below:</h2>
+            <input type="text" id="playerName" placeholder="Enter your name" />
+            <button id="confirmName">Yep, that's me!</button>
+        </div>
 
-        <h2><span id="heroTitle">[Name]</span> of Southerlands, which hero will fight beside you?</h2>
-        <select id="heroSelect">
-            <option value="1">Char1F</option>
-            <option value="2">Char1M</option>
-            <option value="3">Char2F</option>
-            <option value="4">Char2M</option>
-            <option value="5">Char3F</option>
-            <option value="6">Char3M</option>
-        </select>
+        <div id="heroSelectBox" class="hidden">
+            <h2><span id="heroTitle">[Name]</span> of Southerlands, which hero will fight beside you?</h2>
+            <select id="heroSelect">
+                <option value="" disabled selected><em>Select your hero</em></option>
+                <option value="1">Char1F</option>
+                <option value="2">Char1M</option>
+                <option value="3">Char2F</option>
+                <option value="4">Char2M</option>
+                <option value="5">Char3F</option>
+                <option value="6">Char3M</option>
+            </select>
+            <button id="confirmHero">Next</button>
+        </div>
 
-        <h2>Which battleground shall we reclaim?</h2>
-        <select id="dungeonSelect">
-            <option value="algebra">Algebra Arena</option>
-            <option value="geometry">Geometry Grove</option>
-            <option value="trigonometry">Trigonometry Temple</option>
-        </select>
-
-        <h2>Confirm before proceeding:</h2>
-        <div id="summaryBox">
+        <div id="dungeonSelectBox" class="hidden">
+            <h2>Which battleground shall we reclaim?</h2>
+            <select id="dungeonSelect">
+                <option value="" disabled selected><em>Select a dungeon</em></option>
+                <option value="1">Algebra Arena</option>
+                <option value="2">Geometry Grove</option>
+                <option value="3">Trigonometry Temple</option>
+            </select>
+            <button id="confirmDungeon">Next</button>
+        </div>
+        
+        <div id="summaryBox" class="hidden">
+            <h2>Confirm before proceeding:</h2>
             <p><strong>Name:</strong> <span id="summaryName">-</span></p>
             <p><strong>Hero:</strong> <span id="summaryHero">-</span></p>
             <p><strong>Dungeon:</strong> <span id="summaryDungeon">-</span></p>
-            <button id="editPreferencesButton">Change Choices</button>
+            <button id="reselectPreferences">Choose again</button>
+            <button id="startGameButton">Enough—the people need saving! Let's begin.</button>
         </div>
-
-        <button id="startGameButton">Enough—the people need saving! [Begin the dungeon]</button>
     </div>
 
 
